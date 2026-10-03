@@ -1,75 +1,146 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+// import Typewriter from 'typewriter-effect';
+//import TypeWriter from '@sucho/react-native-typewriter';
+import { ViewComponent } from 'react-native';
+import {TypeAnimation} from 'react-native-type-animation';
 
-export default function HomeScreen() {
+import { View, TextInput, Text } from 'react-native';
+
+import MapView from 'react-native-maps';
+import { useState } from 'react';
+
+export default function TabTwoScreen() {
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+    const formData = {name, email, message};
+    setName('');
+    setEmail('');
+    setMessage('');
+    console.log('Form Submitted', formData);
+  };
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#CCD5AE', dark: '#CCD5AE' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@//assets/images/namelogo.png')}
           style={styles.reactLogo}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+      }>  
+    {/* <View>
+      <TypeWriter style={{color: "#ddd"}}  typing={1} typing={-1} loop={true} speed={200} >Hello, welcome to the Pet Patch.</TypeWriter>
+    </View> */} 
+      <TypeAnimation
+        sequence={[
+          { text: "Welcome to the Pet Patch!" },
+          { text: "Ready to find your forever friend?" },
+        ]}
+        cursorStyle={{
+          fontWeight: "semibold"
+        }}
+        loop
+        delayBetweenSequence={2000}
+        style={{
+          color: "grey",
+          fontSize: 40,
+          fontWeight: 600,
+          fontFamily: "Georgia",
+          textAlign: "center",
+        }}
+      />
+
+        {/* <MapView
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        /> */}
+        <View style={styles.contactForm}>
+          <Text style={styles.contactForm1} >Name:</Text>
+          <TextInput style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+          />
+          <Text style={styles.contactForm1}>Email:</Text>
+          <TextInput style={styles.input}
+          placeholder = "Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          />
+          <Text style={styles.contactForm1}>Phone:</Text>
+          <TextInput style={styles.input}
+          placeholder = "Phone"
+          value={message}
+          onChangeText={setMessage}
+          multiline ={true}
+          />
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text style={styles.submitButton}>Submit</Text>
+              
+          </TouchableOpacity>
+          
+        </View>
     </ParallaxScrollView>
   );
 }
 
+
 const styles = StyleSheet.create({
+  submitButton:{
+    fontSize: 23,
+    color: '#808080',
+    fontFamily: "Georgia",
+    fontWeight: 600,
+    textAlign: 'center',
+    marginTop: 20,
+
+  },
+  input:{
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: '#808080',
+  },
+  contactForm1:{
+    fontSize: 23,
+    color: '#808080',
+    fontFamily: "Georgia",
+    fontWeight: 600
+  },
+  contactForm:{
+    padding: 50,
+    textAlign: 'center',
+  },
+  headerImage: {
+    color: '#808080',
+    bottom: -90,
+    left: -35,
+    position: 'absolute',
+  },
   titleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+    height: 150,
+    width: 150,
     position: 'absolute',
+    top: '20%',
+    left: '32%',
+    borderRadius: 0
   },
 });
